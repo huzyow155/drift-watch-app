@@ -1,0 +1,69 @@
+// Generated automatically from contract repo scripts/deploy/deployments.json
+// Single source of truth for contract addresses on Studionet.
+
+export interface ContractDeployment {
+  address: `0x${string}`;
+  deployTxHash: string;
+  sha256: string;
+  explorer: string;
+}
+
+export interface SupersededDeployment {
+  driftWatch: ContractDeployment;
+  driftGuard: ContractDeployment;
+  deployedAt: string;
+  status: string;
+  reason: string;
+}
+
+export interface DeploymentsConfig {
+  network: string;
+  chainId: number;
+  rpc: string;
+  explorerBase: string;
+  contractRepoHead: string;
+  driftWatch: ContractDeployment;
+  driftGuard: ContractDeployment;
+  deployedAt: string;
+  superseded: SupersededDeployment[];
+}
+
+export const DEPLOYMENTS: DeploymentsConfig = {
+  network: "studionet",
+  chainId: 61999,
+  rpc: "https://studio.genlayer.com/api",
+  explorerBase: "https://explorer-studio.genlayer.com/address",
+  contractRepoHead: "01fc90c6911d3d4564a397196c702b2de3f00fb2",
+  driftWatch: {
+    address: "0xe8A159D3622D33aA0B62da57aF033F2C6D9fdEfD" as `0x${string}`,
+    deployTxHash: "0xbcc2b725f32f79d8477db824bed444e53fb7ff6ef6e08d6ebaa72537e49f8f39",
+    sha256: "2dcd113b3811f7041495878fb0e072020ca366afbe7d35740902080db057ca3e",
+    explorer: "https://explorer-studio.genlayer.com/address/0xe8A159D3622D33aA0B62da57aF033F2C6D9fdEfD",
+  },
+  driftGuard: {
+    address: "0x0f336D97134D9770aBFA20d3B2Ad5B9f7D4BC557" as `0x${string}`,
+    deployTxHash: "0x9f3428148b3f7047d912903a7469acdd4318c07e225bb43621a30e952a2f9c6f",
+    sha256: "eb1b26aed095daf61ad1b94b1752d1636055965311543319d8fe214bc24863dc",
+    explorer: "https://explorer-studio.genlayer.com/address/0x0f336D97134D9770aBFA20d3B2Ad5B9f7D4BC557",
+  },
+  deployedAt: "2026-10-17T06:52:41.552Z",
+  superseded: [
+  {
+    "driftWatch": {
+      "address": "0x7Ce13F5696f3A81AB5782BC203158691c0D742Cf",
+      "deployTxHash": "0xe5eeb4ba21fd7370f3ddd789dce5bcbb382d618abd1ab7f8f2e44102187713e8",
+      "sha256": "9d80f1bc271116dae1b29cbf34f823f104d5fca94f6e012140b2686a32fe8e50",
+      "explorer": "https://explorer-studio.genlayer.com/address/0x7Ce13F5696f3A81AB5782BC203158691c0D742Cf"
+    },
+    "driftGuard": {
+      "address": "0x02167c91C7054F7503Ea38200eD293003A8E9e4F",
+      "deployTxHash": "0xef8092b855239516c1a3a4b2e85c70733ff5c2245484c1631ae9335db633b4b9",
+      "sha256": "eb1b26aed095daf61ad1b94b1752d1636055965311543319d8fe214bc24863dc",
+      "explorer": "https://explorer-studio.genlayer.com/address/0x02167c91C7054F7503Ea38200eD293003A8E9e4F"
+    },
+    "deployedAt": "2026-10-17T02:25:54.720Z",
+    "status": "superseded",
+    "reason": "Prompt enhanced in Iteration 1 to strictly enforce flat string arrays for LLM labels."
+  }
+],
+};
