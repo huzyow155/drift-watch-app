@@ -1,0 +1,12 @@
+{
+  "is_safe_for": true,
+  "pin": {
+    "acknowledged_check_id": "0",
+    "pinned_baseline_norm_hash": "ba4e6ecc0e4cbe0711d4e21439926a6c6442bb400037859357fc2cc27535a0ab",
+    "pinned_baseline_seq": "2",
+    "pinned_redlines_hash": "116eb689297f537839b93a86396ed22e6a65a104c05c01d352cc720eeea85439",
+    "pinner": "0x332a3e3864b5d6098f3dd3e71560cca3718fd14e",
+    "schema_version": "1",
+    "watch_id": "3"
+  }
+}

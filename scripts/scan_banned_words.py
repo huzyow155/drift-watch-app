@@ -13,16 +13,17 @@ BANNED_PATTERNS = [
     (r'\bbytecode\b', 'bytecode'),
     (r'\bcryptographic proof\b', 'cryptographic proof'),
     (r'\btampered\b', 'tampered'),
+    (r'\btampering\b', 'tampering'),
     (r'\bautonomous\b', 'autonomous'),
 ]
 
-# Check for 'Live' as status word or capitalized Live
-LIVE_PATTERN = re.compile(r'\bLive\b')
+# Check for 'live' as standalone word (case-insensitive unless code/identifier)
+LIVE_PATTERN = re.compile(r'\blive\b', re.IGNORECASE)
 
 # Finalized is only allowed as uppercase FINALIZED or status_name == 'FINALIZED'
 FINALIZED_BANNED = re.compile(r'\bfinalized\b', re.IGNORECASE)
 
-DIRECTORIES_TO_SCAN = ['src', 'public', 'scripts']
+DIRECTORIES_TO_SCAN = ['src', 'public', 'scripts', 'docs']
 EXTENSIONS = ('.ts', '.tsx', '.js', '.mjs', '.html', '.json', '.md')
 
 violations = []
@@ -55,21 +56,23 @@ for root_dir in DIRECTORIES_TO_SCAN:
                             continue
                         violations.append((filepath, line_idx, f"finalized outside literal: '{matched}'", line.strip()))
 
-# Also check README.md
-if os.path.exists('README.md'):
-    with open('README.md', 'r', encoding='utf-8', errors='ignore') as f:
-        lines = f.readlines()
-    for line_idx, line in enumerate(lines, 1):
-        for pat, reason in BANNED_PATTERNS:
-            if re.search(pat, line, re.IGNORECASE):
-                violations.append(('README.md', line_idx, reason, line.strip()))
-        if LIVE_PATTERN.search(line):
-            violations.append(('README.md', line_idx, "Live as status/title word", line.strip()))
-        for m in FINALIZED_BANNED.finditer(line):
-            matched = m.group(0)
-            if matched == 'FINALIZED' or 'status_name' in line:
-                continue
-            violations.append(('README.md', line_idx, f"finalized outside literal: '{matched}'", line.strip()))
+# Check root markdown and html files
+ROOT_FILES_TO_SCAN = ['README.md', 'index.html', 'MANUAL_METAMASK_TEST.md']
+for root_file in ROOT_FILES_TO_SCAN:
+    if os.path.exists(root_file):
+        with open(root_file, 'r', encoding='utf-8', errors='ignore') as f:
+            lines = f.readlines()
+        for line_idx, line in enumerate(lines, 1):
+            for pat, reason in BANNED_PATTERNS:
+                if re.search(pat, line, re.IGNORECASE):
+                    violations.append((root_file, line_idx, reason, line.strip()))
+            if LIVE_PATTERN.search(line):
+                violations.append((root_file, line_idx, "live/Live as status/descriptor word", line.strip()))
+            for m in FINALIZED_BANNED.finditer(line):
+                matched = m.group(0)
+                if matched == 'FINALIZED' or 'status_name' in line:
+                    continue
+                violations.append((root_file, line_idx, f"finalized outside literal: '{matched}'", line.strip()))
 
 if violations:
     print(f"FOUND {len(violations)} BANNED WORD VIOLATIONS:")

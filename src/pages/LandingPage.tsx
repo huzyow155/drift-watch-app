@@ -42,7 +42,7 @@ export const LandingPage: React.FC<{ navigate: (path: string) => void }> = ({ na
             margin: '0 auto 28px',
           }}
         >
-          DriftWatch evaluates live policy changes, filters cosmetic revisions, and alerts dApps before unauthorized terms compromise user rights.
+          DriftWatch evaluates current policy changes, filters cosmetic revisions, and alerts dApps before unauthorized terms compromise user rights.
         </p>
 
         {/* Action Buttons */}

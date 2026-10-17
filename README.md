@@ -3,7 +3,7 @@
 Web application for **DriftWatch** and **DriftGuard**: monitoring terms-of-service semantic drift with consensus-based AI verification on GenLayer Studionet.
 
 - **Status**: Preview
-- **Production URL**: [https://drift-watch-app-hyper-8cdf.vercel.app](https://drift-watch-app-hyper-8cdf.vercel.app) (also aliased at [https://drift-watch-app.vercel.app](https://drift-watch-app.vercel.app))
+- **Production URL**: [https://drift-watch-app.vercel.app](https://drift-watch-app.vercel.app) (also at [https://drift-watch-app-hyper-8cdf.vercel.app](https://drift-watch-app-hyper-8cdf.vercel.app))
 - **Contract Repository**: [huzyow155/drift-watch-genlayer](https://github.com/huzyow155/drift-watch-genlayer)
 - **Fixtures Repository**: [huzyow155/drift-watch-fixtures](https://github.com/huzyow155/drift-watch-fixtures)
 - **License**: Hyper (huzyow155)

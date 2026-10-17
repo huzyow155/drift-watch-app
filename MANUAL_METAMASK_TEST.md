@@ -84,6 +84,6 @@ This document provides human-executable verification steps for testing the Drift
 5. In the **Synchronous `is_safe_for` Verification** playground:
    - Your pinner address, baseline norm hash, and redlines hash will be pre-filled.
    - Click **Test `is_safe_for`**. Result will show `true (Safe to transact)`.
-   - Click the **Change one character** button to simulate malicious hash tampering.
+   - Click the **Change one character** button to simulate changing one character.
    - Click **Test `is_safe_for`** again.
    - **Expected:** Instant revert / `false`, demonstrating that downstream contracts will block transactions if terms have drifted.
