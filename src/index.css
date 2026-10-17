@@ -1,0 +1,172 @@
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', Menlo, Consolas, monospace;
+
+  /* Paper Warm Light Theme */
+  --bg-page: #f8f6f0;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #fbf9f4;
+  --bg-inset: #f1ede4;
+  --text-main: #23201d;
+  --text-muted: #544e47;
+  --text-dim: #6e675d;
+  --border-light: #e4decfa0;
+  --border-strong: #c8bfae;
+  --accent-gold: #7a4b00;
+  --accent-gold-soft: #fcf4e8;
+  --ink-primary: #1d2538;
+
+  /* Verdict Stamps */
+  --verdict-unchanged: #1e5c24;
+  --verdict-unchanged-bg: #e8f5e9;
+  --verdict-cosmetic: #005e53;
+  --verdict-cosmetic-bg: #e0f2f1;
+  --verdict-none: #37474f;
+  --verdict-none-bg: #eceff1;
+  --verdict-minor: #a84700;
+  --verdict-minor-bg: #fff3e0;
+  --verdict-material: #c62828;
+  --verdict-material-bg: #ffebee;
+  --verdict-review: #6a1b9a;
+  --verdict-review-bg: #f3e5f5;
+
+  /* Redline Markup */
+  --diff-removed-bg: #ffebee;
+  --diff-removed-text: #b71c1c;
+  --diff-added-bg: #e8f5e9;
+  --diff-added-text: #1b5e20;
+}
+
+[data-theme='dark'] {
+  --bg-page: #151413;
+  --bg-card: #1c1b18;
+  --bg-card-subtle: #24221e;
+  --bg-inset: #121110;
+  --text-main: #f0ece1;
+  --text-muted: #a69f92;
+  --text-dim: #6b665d;
+  --border-light: #2e2b26;
+  --border-strong: #45413a;
+  --accent-gold: #e5a742;
+  --accent-gold-soft: #2e2415;
+  --ink-primary: #8fa0c9;
+
+  --verdict-unchanged: #81c784;
+  --verdict-unchanged-bg: #1b3320;
+  --verdict-cosmetic: #4db6ac;
+  --verdict-cosmetic-bg: #132e2c;
+  --verdict-none: #90a4ae;
+  --verdict-none-bg: #22292d;
+  --verdict-minor: #ffb74d;
+  --verdict-minor-bg: #38240f;
+  --verdict-material: #e57373;
+  --verdict-material-bg: #361718;
+  --verdict-review: #ba68c8;
+  --verdict-review-bg: #2d1838;
+
+  --diff-removed-bg: #3d1417;
+  --diff-removed-text: #ff8a80;
+  --diff-added-bg: #14331a;
+  --diff-added-text: #a7f3d0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Stamped Verdict Badge */
+.stamp {
+  display: inline-block;
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+}
+
+.stamp-UNCHANGED {
+  color: var(--verdict-unchanged);
+  background: var(--verdict-unchanged-bg);
+}
+
+.stamp-COSMETIC {
+  color: var(--verdict-cosmetic);
+  background: var(--verdict-cosmetic-bg);
+}
+
+.stamp-NONE {
+  color: var(--verdict-none);
+  background: var(--verdict-none-bg);
+}
+
+.stamp-MINOR {
+  color: var(--verdict-minor);
+  background: var(--verdict-minor-bg);
+}
+
+.stamp-MATERIAL {
+  color: var(--verdict-material);
+  background: var(--verdict-material-bg);
+  border-width: 1.5px;
+}
+
+.stamp-REVIEW {
+  color: var(--verdict-review);
+  background: var(--verdict-review-bg);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(106, 27, 154, 0.08) 4px, rgba(106, 27, 154, 0.08) 8px);
+}
+
+/* Redline Markup */
+.redline-del {
+  background-color: var(--diff-removed-bg);
+  color: var(--diff-removed-text);
+  text-decoration: line-through;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.redline-ins {
+  background-color: var(--diff-added-bg);
+  color: var(--diff-added-text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
