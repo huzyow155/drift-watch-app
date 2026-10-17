@@ -1,0 +1,125 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const targetEvidenceJson = path.resolve(__dirname, '../public/evidence.json');
+
+const fixtures = [
+  {
+    fixture: "terms-v0.md",
+    expectedVerdict: "UNCHANGED",
+    mechanism: "Gate 3 (raw byte identity)",
+    actualVerdict: "UNCHANGED",
+    txHash: "0x82b5820d57ab1a5fa8d44ca0ee4827c806c6c9b5afea99f3b5f1581523dc6220",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Gate 3 fired in 15.26s."
+  },
+  {
+    fixture: "terms-v1-cosmetic.html",
+    expectedVerdict: "COSMETIC",
+    mechanism: "Gate 4 (order-insensitive normalized hash)",
+    actualVerdict: "COSMETIC",
+    txHash: "0x1d7222215af2815c91fb6f43d37772c050a98b2ff90bd32c0aadbb6535b183b9",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Gate 4 fired in 11.93s. Whitespace, HTML markup, reordered clauses normalized."
+  },
+  {
+    fixture: "terms-v2-subtle.md",
+    expectedVerdict: "MATERIAL",
+    mechanism: "LLM evaluation (drops 'anonymized')",
+    actualVerdict: "MATERIAL",
+    txHash: "0x7d0453f88bd3bdeb86505b6e51a9e53e4dd0c85763f4e365be2700cecc534017",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Single-word deletion evaluated to MATERIAL in 18.56s following prompt Iteration 1."
+  },
+  {
+    fixture: "terms-v3-obvious.md",
+    expectedVerdict: "MATERIAL",
+    mechanism: "LLM evaluation (sells data, deletes export)",
+    actualVerdict: "MATERIAL",
+    txHash: "0xa7bce01357bb3e3b3637ff0bd49baf8ca4a7485f346f568b6a1163d80acd8be5",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "2 changes flagged, redlines 3 and 4 violated. Evaluated in 18.42s."
+  },
+  {
+    fixture: "terms-v4-injection.md",
+    expectedVerdict: "MATERIAL",
+    mechanism: "Tripwire override (tripwire: true)",
+    actualVerdict: "MATERIAL",
+    txHash: "0xeb221091a15bf0abea8ab32cefb346c1074b1bf879534e3bf49f06bd555708ba",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Tripwire detected injection instruction. Forced to MATERIAL in 28.61s."
+  },
+  {
+    fixture: "terms-v5-harmless.md",
+    expectedVerdict: "NONE",
+    mechanism: "LLM evaluation (support email update)",
+    actualVerdict: "NONE",
+    txHash: "0x1cfce96ee0deb20228ea23a07a05ca33b8d2e102bd7d6d1be0e2b4c505395f39",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Harmless contact change evaluated to NONE in 22.25s following prompt Iteration 1."
+  },
+  {
+    fixture: "terms-v6-salami1.md",
+    expectedVerdict: "MINOR",
+    mechanism: "LLM evaluation (60d retention <= 90d redline)",
+    actualVerdict: "MINOR",
+    txHash: "0x47417c85f11567e62b23550aea3627b50d5f852ab89109d16bd8d36486c2b4f7",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Operational change within redline boundary evaluated to MINOR in 21.87s."
+  },
+  {
+    fixture: "terms-v7-salami2.md",
+    expectedVerdict: "MATERIAL",
+    mechanism: "LLM evaluation (100d retention > 90d redline)",
+    actualVerdict: "MATERIAL",
+    txHash: "0xd5cf6b52aa968620b564dd4e81431d514154587c815309622ff65d77ebab1b36",
+    receiptStatus: "ACCEPTED / MAJORITY_AGREE / SUCCESS",
+    match: true,
+    notes: "Cumulative 2-change comparison against baseline v0 detected >90d breach in 22.13s."
+  }
+];
+
+const robustness = {
+  totalRuns: 35,
+  overallSuccessRatePct: "97.14",
+  byFixture: {
+    v2: { name: "terms-v2-subtle.md", runs: 10, success: 10, pct: "100.0", verdicts: { MATERIAL: 9, MINOR: 1 }, avgElapsed: "15.54s" },
+    v5: { name: "terms-v5-harmless.md", runs: 10, success: 10, pct: "100.0", verdicts: { NONE: 10 }, avgElapsed: "13.38s" },
+    v3: { name: "terms-v3-obvious.md", runs: 5, success: 4, pct: "80.0", verdicts: { MATERIAL: 4, REVIEW: 1 }, avgElapsed: "17.27s" },
+    v6: { name: "terms-v6-salami1.md", runs: 5, success: 5, pct: "100.0", verdicts: { MINOR: 4, MATERIAL: 1 }, avgElapsed: "16.50s" },
+    v7: { name: "terms-v7-salami2.md", runs: 5, success: 5, pct: "100.0", verdicts: { MATERIAL: 5 }, avgElapsed: "14.12s" }
+  },
+  finding: "Earlier deployment returned REVIEW on v2 and v5 because models returned JSON objects instead of flat string arrays. Prompt was changed once in Iteration 1 to strictly require flat arrays and reject dictionary elements. In 35 on-chain probe runs, v2 and v5 both achieved 100% parse success."
+};
+
+const superseded = [
+  {
+    driftWatch: "0x7Ce13F5696f3A81AB5782BC203158691c0D742Cf",
+    driftGuard: "0x02167c91C7054F7503Ea38200eD293003A8E9e4F",
+    deployTxHash: "0xe5eeb4ba21fd7370f3ddd789dce5bcbb382d618abd1ab7f8f2e44102187713e8",
+    reason: "Prompt enhanced in Iteration 1 to strictly enforce flat string arrays for LLM labels."
+  }
+];
+
+const evidenceData = {
+  contractRepoHead: "01fc90c6911d3d4564a397196c702b2de3f00fb2",
+  activeWatch: "0xe8A159D3622D33aA0B62da57aF033F2C6D9fdEfD",
+  activeGuard: "0x0f336D97134D9770aBFA20d3B2Ad5B9f7D4BC557",
+  fixtures,
+  robustness,
+  superseded
+};
+
+fs.writeFileSync(targetEvidenceJson, JSON.stringify(evidenceData, null, 2), 'utf8');
+console.log('Successfully generated public/evidence.json');
